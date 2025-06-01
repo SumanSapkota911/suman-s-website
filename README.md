@@ -1,1 +1,434 @@
-# suman-s-website
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Personal E-Card</title>
+
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+        url('https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?cs=srgb&dl=pexels-pixabay-206359.jpg&fm=jpg') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #111;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Dark mode base */
+    body.dark-mode {
+      background: #121212;
+      color: #eee;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Card styles */
+    .ecard {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      padding: 35px 30px;
+      border-radius: 22px;
+      text-align: center;
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      animation: fadeIn 1s ease-out forwards;
+      transition: background 0.4s ease, color 0.4s ease, box-shadow 0.3s ease;
+      color: #222;
+      user-select: none;
+      cursor: default;
+    }
+
+    .ecard:hover {
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Dark mode card */
+    body.dark-mode .ecard {
+      background: rgba(30, 30, 30, 0.85);
+      color: #ddd;
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+    }
+
+    /* Logo */
+    .ecard img.logo {
+      width: 110px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+      outline-offset: 3px;
+    }
+
+    .ecard img.logo:hover,
+    .ecard img.logo:focus {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      outline: 2px solid #007bff;
+      outline-offset: 4px;
+    }
+
+    /* Headings & text */
+    .ecard h1 {
+      font-size: 28px;
+      margin-bottom: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: inherit;
+    }
+
+    .ecard p {
+      font-size: 16px;
+      margin-bottom: 25px;
+      line-height: 1.5;
+      color: inherit;
+    }
+
+    /* Links container */
+    .links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    /* Link buttons */
+    .link-button {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-radius: 32px;
+      text-decoration: none;
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #222;
+      font-weight: 600;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+      transition: background-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+      font-size: 15px;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .link-button img {
+      width: 26px;
+      height: 26px;
+      filter: drop-shadow(0 0 1px rgba(0,0,0,0.1));
+      user-select: none;
+    }
+
+    .link-button:hover,
+    .link-button:focus {
+      background-color: #f0f0f0;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+      outline: none;
+    }
+
+    /* Dark mode links */
+    body.dark-mode .link-button {
+      background-color: rgba(40, 40, 40, 0.85);
+      color: #eee;
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+    }
+
+    body.dark-mode .link-button:hover {
+      background-color: rgba(60, 60, 60, 0.95);
+    }
+
+    /* About section */
+    .about {
+      margin-top: 12px;
+      font-size: 16px;
+      color: #555;
+      line-height: 1.4;
+      user-select: none;
+    }
+
+    .about a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .about a:hover,
+    .about a:focus {
+      text-decoration: underline;
+      color: #0056b3;
+      outline: none;
+    }
+
+    /* Buttons fixed on screen */
+
+    /* Dark mode toggle button */
+    .dark-mode-toggle {
+      position: fixed;
+      bottom: 70px;
+      right: 20px;
+      background-color: #333;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      z-index: 99;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    .dark-mode-toggle:hover,
+    .dark-mode-toggle:focus {
+      background-color: #555;
+      outline: none;
+    }
+
+    /* Music toggle */
+    .music-toggle {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: #28a745;
+      color: white;
+      padding: 14px 24px;
+      border-radius: 32px;
+      font-size: 15px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25);
+      z-index: 99;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      user-select: none;
+    }
+
+    .music-toggle:hover,
+    .music-toggle:focus {
+      background-color: #218838;
+      outline: none;
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    /* Feedback button */
+    .feedback-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #007bff;
+      color: white;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 32px;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25);
+      text-decoration: none;
+      z-index: 99;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      user-select: none;
+    }
+
+    .feedback-button:hover,
+    .feedback-button:focus {
+      background-color: #0056b3;
+      transform: translateY(-3px) scale(1.05);
+      outline: none;
+    }
+
+    /* Dark mode music toggle */
+    body.dark-mode .music-toggle {
+      background-color: #444;
+      color: #eee;
+    }
+
+    body.dark-mode .music-toggle:hover {
+      background-color: #666;
+    }
+
+    /* Dark mode feedback button */
+    body.dark-mode .feedback-button {
+      background-color: #bb86fc;
+      color: #121212;
+    }
+
+    body.dark-mode .feedback-button:hover {
+      background-color: #9a67ea;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .ecard {
+        padding: 28px 22px;
+      }
+
+      .ecard h1 {
+        font-size: 24px;
+      }
+
+      .ecard p,
+      .about {
+        font-size: 15px;
+      }
+
+      .links {
+        gap: 12px;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .link-button {
+        font-size: 14px;
+        padding: 10px 14px;
+      }
+
+      .feedback-button,
+      .music-toggle {
+        padding: 12px 18px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background music -->
+  <audio id="bg-music" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Dark Mode Toggle -->
+  <button class="dark-mode-toggle" aria-pressed="false" aria-label="Toggle dark mode" onclick="toggleDarkMode()">
+    Toggle Dark Mode
+  </button>
+
+  <!-- Music Toggle -->
+  <button class="music-toggle" aria-pressed="false" aria-label="Toggle background music" onclick="toggleMusic()">
+    Play Music
+  </button>
+
+  <!-- E-card -->
+  <main class="ecard" role="main" aria-label="Personal e-card" data-aos="fade-up" data-aos-delay="100">
+    <img
+      src="https://i.postimg.cc/KYnkx2Wp/Black-White-Minimalist-Circle-Monogram-Logo.png"
+      alt="Personal logo"
+      class="logo"
+      tabindex="0"
+      aria-describedby="logo-desc"
+    />
+    <span id="logo-desc" class="visually-hidden">Personal monogram logo</span>
+
+    <h1>Glad You’re Here! This Is My Personal Site</h1>
+    <p>Stay connected with me and explore my latest updates.</p>
+
+    <nav class="links" aria-label="Social media and contact links">
+      <a href="https://www.facebook.com/share/16SgptBZpC/" target="_blank" rel="noopener noreferrer" class="link-button" aria-label="Facebook profile">
+        <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook icon" /> Facebook
+      </a>
+      <a href="https://www.instagram.com/sumansapkota977" target="_blank" rel="noopener noreferrer" class="link-button" aria-label="Instagram profile">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram icon" /> Instagram
+      </a>
+      <a href="mailto:sumansapkota911@gmail.com" class="link-button" aria-label="Send email">
+        <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email icon" /> Email
+      </a>
+      <a href="https://wa.me/9748766697" target="_blank" rel="noopener noreferrer" class="link-button" aria-label="WhatsApp chat">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp icon" /> WhatsApp
+      </a>
+    </nav>
+
+    <section class="about" aria-label="About and updates">
+      <p>✨ Exciting things are blooming — stay tuned for the seasonal update! 🌼🌿</p>
+      <a href="https://yourwebsite.com/season" target="_blank" rel="noopener noreferrer" aria-label="Explore my journey">Explore My Journey</a>
+    </section>
+  </main>
+
+  <!-- Feedback Button -->
+  <a
+    href="mailto:sumansapkota911@gmail.com?subject=Feedback&body=Hi%20Suman%2C%20here%20is%20some%20feedback..."
+    class="feedback-button"
+    aria-label="Send feedback via email"
+  >
+    Send Feedback
+  </a>
+
+  <!-- AOS JS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 800,
+      once: true,
+    });
+  </script>
+
+  <!-- Dark mode toggle script -->
+  <script>
+    const darkToggleBtn = document.querySelector('.dark-mode-toggle');
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      darkToggleBtn.setAttribute('aria-pressed', isDark);
+      darkToggleBtn.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    }
+  </script>
+
+  <!-- Music toggle script -->
+  <script>
+    const music = document.getElementById('bg-music');
+    const musicToggleBtn = document.querySelector('.music-toggle');
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        music.pause();
+        musicToggleBtn.textContent = 'Play Music';
+        musicToggleBtn.setAttribute('aria-pressed', 'false');
+      } else {
+        music.play();
+        musicToggleBtn.textContent = 'Pause Music';
+        musicToggleBtn.setAttribute('aria-pressed', 'true');
+      }
+      isPlaying = !isPlaying;
+    }
+  </script>
+
+  <!-- Accessibility helper -->
+  <style>
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  </style>
+</body>
+</html>
